@@ -1,19 +1,34 @@
 import Messages from "./Messages"
 import MessageInput from "./MessageInput";
 import { TiMessages } from "react-icons/ti";
+import useConversation from '../../zustand/useConversation';
+import { useEffect } from "react";
 
 const MessageContainer = () => {
 
-  const noChatSelected = true;
+ const {selectedConversation, setSelectedConversation} = useConversation();//we change the state globally based on profile has been clicked
+  //go through Conversation.jsx and useConversation.js file
+  //when one of the conversation has been clicked we store the conversation of that user in selectedConversation globally in Conversation.jsx file
+
+  useEffect(() => {
+    //cleanup function (unmounts)
+    //when this component is no longer in the browser we unmount the state
+    //i.e. we make the state as it was
+    //e.g when user logged out then he/she can't visit the component due to unauthorization
+    //so at that time this MessageContainer.jsx component is no longer in the browser that's why we cleanup the state and bring it to it's default state
+    //otherwise when you log out and again log in you will see you will be seing the chat of the person you last visited
+    //because we didn't cleaup up the state after log out
+      return () => setSelectedConversation(null);
+  }, []);
 
   return (
     <div className='md:min-w-[450px] flex flex-col'>
-        { noChatSelected ? <NoChatSelected/> : (
+        { !selectedConversation ? <NoChatSelected/> : (
           <>
             {/* Header */}
             <div className='bg-slate-500 px-4 py-2 mb-2'>
                 <span className='label-text'>To:</span>{" "}
-                <span className='text-gray-900 font-bold'>John doe</span>
+                <span className='text-gray-900 font-bold'>{selectedConversation.fullname}</span>
             </div>
 
             {/* Messages  */}
