@@ -1,6 +1,8 @@
 
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
+import { getReceiverSocketId } from "../socket/socket.js";
+import { io } from "../socket/socket.js";
 
 
 export const sendMessage = async (req, res) => {
@@ -36,14 +38,23 @@ export const sendMessage = async (req, res) => {
             conversation.messages.push(newMessage._id);
         }
 
-        //SOCKET IO functionality
-
         //this will take a time to save those promises as one will wait for completion of another
         // await conversation.save();
         // await newMessage.save();
 
         //so use this to save them at once i.e run in parallel
         await Promise.all([conversation.save(), newMessage.save()]);
+
+
+        //SOCKET IO functionality
+        const receiverSocketId = getReceiverSocketId(receiverId);
+        //checking if the receiver is online for receiving message
+        if(receiverSocketId){
+            //io.emit() is used to send events to all the users who are online i.e authenticated
+            //io.to(<socket_id>).emit() is used to send events to specific client
+            io.to(receiverSocketId).emit("newMessage", newMessage);
+        }
+
 
         res.status(200).json(newMessage);
         

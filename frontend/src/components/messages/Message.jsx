@@ -14,6 +14,10 @@ const Message = ({ message }) => {
     const profilePic = fromMe ? authUser.profilePic : selectedConversation?.profilePic;
     const bubbleBgColor = fromMe ? 'bg-blue-500' : "";
 
+    //go through useListenMessage.js hook
+    //also go through index.css file
+    const shakeClass = message.shouldShake ? "shake" : "";
+
     const formattedTime = extractTime(message.createdAt);
 
   return (
@@ -29,7 +33,8 @@ const Message = ({ message }) => {
         </div>
 
         <div 
-        className={`chat-bubble pb-2 text-white ${bubbleBgColor}`}
+        className={`chat-bubble pb-2 
+           ${shakeClass} text-white ${bubbleBgColor}`}
         >
             {message.message}
         </div>

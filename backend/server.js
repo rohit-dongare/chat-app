@@ -7,8 +7,11 @@ import messageRoutes from './routes/message.routes.js';
 import userRoutes from './routes/user.routes.js';
 
 import connectToMongoDB from './db/connectToMongoDB.js';
+import { app, server } from './socket/socket.js'
 
-const app = express();
+// const app = express(); //we create a server over the expres server i.e socket server
+//we created the express app in socket.js file which is then exported here in this file
+//go through socket.js 
 const PORT = process.env.PORT || 8000;
 
 dotenv.config();//without this we won't be able to access the environment variabls from .env file 
@@ -26,8 +29,15 @@ app.use("/api/users", userRoutes);//get users for sidebar
 //     res.send("hello world!!!");
 // });
 
+//before socket io server has been created
+// app.listen(PORT, () => {
+//     connectToMongoDB();
+//     console.log(`Server Running on port ${PORT}`)
+// });
 
-app.listen(PORT, () => {
+
+//after socket.io server is created
+server.listen(PORT, () => {
     connectToMongoDB();
-    console.log(`Server Running on port ${PORT}`)
+    console.log(`Server Running on port ${PORT}`);
 });

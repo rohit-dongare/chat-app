@@ -3,6 +3,7 @@ import Message from "./Message";
 import MessageSkeleton from "../skeletons/MessageSkeleton";
 import { useEffect } from "react";
 import { useRef } from "react";
+import useListenMessages from "../../hooks/useListenMessages";
 
 const Messages = () => {
 
@@ -10,6 +11,10 @@ const Messages = () => {
  //console.log("Messages:",messages);
  const lastMessageRef = useRef();//this is used for when you send message , you don't have to scroll to see that last message you sent
  //it will scroll automatically using useRef()
+
+ useListenMessages();//this will listen for every incoming messages from socket
+ //go through useListenMessages.js , Socket.jsx in frontend
+ //also go through socket.js , message.controller.js in backend
 
  useEffect(() => {
     setTimeout(() => {
