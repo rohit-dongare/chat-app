@@ -20,7 +20,9 @@ export const SocketContextProvider = ({ children }) => {
         if(authUser) {
             //here we check if there is authenticated user so we create socket io creation
             //below user id is used in backend in socket.js file for checking if he/she is online or not
-            const socket = io("http://localhost:5000", {
+            //while developing the project the url of the backend was : http://localhost:5000
+            //but after deployment it the url of the website is: 
+            const socket = io("https://chat-app-prod-m1j9.onrender.com", {
                 query: {
                     userId: authUser._id
                 }
