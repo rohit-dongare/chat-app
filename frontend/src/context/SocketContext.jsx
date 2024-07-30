@@ -36,6 +36,7 @@ export const SocketContextProvider = ({ children }) => {
             //and this event will return users who are online as a callback function
             //socket.on() is used to listen to the events . can be used both on client and server side
             //as you can see we have used the same event on frontend and backend using socket.io
+            
             socket.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
             })
